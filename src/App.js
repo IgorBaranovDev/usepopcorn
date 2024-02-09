@@ -113,7 +113,6 @@ export default function App() {
           setError("");
         } catch (err) {
           // console.log(err, err.message);
-          setError(err.message);
 
           if (err.name !== "AbortError") {
             setError(err.message);
@@ -336,6 +335,23 @@ function MoviDetails({ selectedId, onCloseMovi, onAddWatched, watched }) {
     onAddWatched(newWatchedMovie);
     onCloseMovi();
   }
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovi();
+          console.log("key event");
+        }
+      }
+
+      document.addEventListener("keydown", callback);
+      return function () {
+        document.removeEventListener("keydown");
+      };
+    },
+    [onCloseMovi]
+  );
 
   useEffect(() => {
     async function getMoviDetails() {
