@@ -338,6 +338,17 @@ function MoviDetails({ selectedId, onCloseMovi, onAddWatched, watched }) {
     getMoviDetails();
   }, [selectedId]);
 
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movi | ${title}`;
+
+      return function () {
+        document.title = "use popcorn";
+      };
+    },
+    [title]
+  );
   return (
     <div className="details">
       {isLoading ? (
