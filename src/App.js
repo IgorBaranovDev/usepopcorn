@@ -112,9 +112,8 @@ export default function App() {
           setMovies(data.Search);
           setError("");
         } catch (err) {
-          // console.log(err, err.message);
-
           if (err.name !== "AbortError") {
+            console.log(err.message);
             setError(err.message);
           }
         } finally {
@@ -128,6 +127,7 @@ export default function App() {
         return;
       }
 
+      handleCloseMovi();
       fetchMovies();
 
       return function () {
@@ -302,8 +302,6 @@ function MoviDetails({ selectedId, onCloseMovi, onAddWatched, watched }) {
   const [userRating, setUserRating] = useState("");
 
   const isWachted = watched.map((movie) => movie.imdbID).includes(selectedId);
-  console.log("Arr watched-", watched);
-  console.log("isWatched-", isWachted);
 
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID === selectedId
@@ -341,13 +339,12 @@ function MoviDetails({ selectedId, onCloseMovi, onAddWatched, watched }) {
       function callback(e) {
         if (e.code === "Escape") {
           onCloseMovi();
-          console.log("key event");
         }
       }
 
       document.addEventListener("keydown", callback);
       return function () {
-        document.removeEventListener("keydown");
+        document.removeEventListener("keydown", callback);
       };
     },
     [onCloseMovi]
