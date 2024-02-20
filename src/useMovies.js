@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 
 const KEY = "d46f3f60";
 
-export function useMovies(query, callback) {
+export function useMovies(query) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(
     function () {
-      callback?.();
       const controller = new AbortController();
 
       async function fetchMovies() {
@@ -53,7 +52,7 @@ export function useMovies(query, callback) {
         controller.abort();
       };
     },
-    [query, callback]
+    [query]
   );
   return { movies, isLoading, error };
 }
