@@ -9,6 +9,7 @@ export function useMovies(query, callback) {
 
   useEffect(
     function () {
+      callback?.();
       const controller = new AbortController();
 
       async function fetchMovies() {
@@ -46,14 +47,13 @@ export function useMovies(query, callback) {
         return;
       }
 
-      //   handleCloseMovi();
       fetchMovies();
 
       return function () {
         controller.abort();
       };
     },
-    [query]
+    [query, callback]
   );
   return { movies, isLoading, error };
 }
